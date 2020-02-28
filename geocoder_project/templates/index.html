@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Geocoder</title>
+    <link rel="stylesheet" href="../static/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Super Geocoder</h1>
+        <h3>Please upload your CSV file.The values containing addresses should be in a column named <i>address</i> or <i>Address</i></h3>
+        <form action="{{url_for('index')}}" method="POST" enctype="multipart/form-data">
+            <input placeholder="Enter upload CSV file" type="file" name="file">
+            <button type="submit">Submit</button>
+        </form>
+        <p>{% include error ignore missing %}</p>
+        {% if table != None %}
+        <div class="table_div">
+            <table class="table">
+                <thead>
+                    {% for column in table.columns %}
+                    <th>{{ column }}</th>
+                    {% endfor %}
+                </thead>
+                <tbody>
+                    {% for row in table.data %}
+                    <tr>
+                        {% for data in row %}
+                            {% if data == nan %}
+                                <td>NaN</td>
+                            {% else %}
+                                <td>{{ data }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% include btn ignore missing %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
